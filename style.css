@@ -1,0 +1,122 @@
+/* CSS 스타일: 노인 친화적인 색상 및 가독성 최적화 */
+body { 
+    font-family: 'Malgun Gothic', sans-serif; 
+    line-height: 1.8; 
+    font-size: 18px; 
+    padding: 20px; 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background-color: #f7f7f5; /* 아주 연한 회백색 (눈부심 방지) */
+    color: #333344; /* 짙은 남색 계열로 텍스트 대비 확보 */
+}
+h2 { color: #6a5acd; border-bottom: 2px solid #b0c4de; padding-bottom: 10px; font-size: 26px; } /* 차분한 보라색 계열 */
+h3 { font-size: 22px; margin-top: 30px; color: #4682b4; } /* 차분한 파란색 계열 */
+p { margin-bottom: 15px; }
+
+/* 버튼식 입력란 스타일 */
+.input-group { 
+    background-color: #ffffff;
+    border: 1px solid #c0c0c0; /* 회색 테두리 */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.input-group label { 
+    display: block; 
+    font-weight: bold; 
+    margin-bottom: 5px; 
+    font-size: 18px; 
+    color: #4682b4; /* 강조색 */
+}
+input[type="text"] { 
+    width: 100%; 
+    padding: 12px; 
+    box-sizing: border-box; 
+    border: 1px solid #a9a9a9; /* 테두리를 조금 더 진하게 */
+    border-radius: 4px; 
+    font-size: 16px; 
+    margin-top: 5px;
+}
+
+/* 일반 버튼 스타일: 채도가 낮은 색상 사용 */
+button { 
+    background-color: #708090; /* 차분한 슬레이트 그레이 */
+    color: white; 
+    padding: 14px 20px; /* 버튼 높이 증가 */
+    margin-top: 25px; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-size: 20px; /* 버튼 글자 크기 증가 */
+    transition: background-color 0.3s; 
+    width: 100%; 
+    box-sizing: border-box;
+}
+button:hover { background-color: #5f6b7a; }
+
+/* 결과 박스 스타일 */
+.result-box { margin-top: 30px; padding: 25px; border: 2px solid #b0c4de; background-color: #ffffff; border-radius: 10px; }
+.prompt-output { 
+    background-color: #f0f8ff; /* 연한 하늘색 배경 */ 
+    padding: 15px; 
+    border-radius: 5px; 
+    /* white-space: pre-wrap; (제거 - marked.js가 줄바꿈 처리) */
+    word-break: break-all; 
+    /* font-family: monospace; (제거 - 렌더링된 HTML에는 기본 폰트가 어울림) */
+    font-size: 16px; 
+    margin-top: 10px; 
+    border: 1px solid #add8e6; 
+    line-height: 1.7; /* 가독성을 위해 줄 간격 추가 */
+}
+
+/* .prompt-output 내부에 생성될 HTML 태그 스타일 */
+.prompt-output > *:first-child {
+    margin-top: 0;
+}
+.prompt-output > *:last-child {
+    margin-bottom: 0;
+}
+.prompt-output p,
+.prompt-output ul,
+.prompt-output ol {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.prompt-output strong {
+     color: #333344; /* 본문 텍스트보다 살짝 더 진하게 */
+}
+.prompt-output a {
+    color: #0056b3; /* 클릭 가능한 링크 색상 */
+    text-decoration: underline;
+}
+.prompt-output hr {
+    border: 0;
+    border-top: 1px dashed #add8e6;
+    margin: 15px 0;
+}
+
+/* 로딩 스피너 스타일 */
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #6a5acd; /* Purple (theme color) */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto; /* 가운데 정렬 */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.copy-btn { background-color: #6a5acd; margin-left: 0; font-size: 20px; margin-top: 15px; } /* 복사 버튼 색상과 크기 조정 */
+.copy-btn:hover { background-color: #5849b2; }
+
+/* 외부 링크 스타일 */
+.link-list { margin-top: 30px; padding: 15px; border-top: 2px dashed #d3d3d3; }
+.link-list a { display: block; margin: 15px 0; color: #4682b4; text-decoration: underline; font-weight: bold; font-size: 18px; }
+

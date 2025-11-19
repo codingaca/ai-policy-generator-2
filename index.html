@@ -4,74 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 정책 제안서 생성기 (히어老 팀)</title>
-    <style>
-        /* CSS 스타일: 노인 친화적인 색상 및 가독성 최적화 */
-        body { 
-            font-family: 'Malgun Gothic', sans-serif; 
-            line-height: 1.8; 
-            font-size: 18px; 
-            padding: 20px; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            background-color: #f7f7f5; /* 아주 연한 회백색 (눈부심 방지) */
-            color: #333344; /* 짙은 남색 계열로 텍스트 대비 확보 */
-        }
-        h2 { color: #6a5acd; border-bottom: 2px solid #b0c4de; padding-bottom: 10px; font-size: 26px; } /* 차분한 보라색 계열 */
-        h3 { font-size: 22px; margin-top: 30px; color: #4682b4; } /* 차분한 파란색 계열 */
-        p { margin-bottom: 15px; }
-        
-        /* 버튼식 입력란 스타일 */
-        .input-group { 
-            background-color: #ffffff;
-            border: 1px solid #c0c0c0; /* 회색 테두리 */
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .input-group label { 
-            display: block; 
-            font-weight: bold; 
-            margin-bottom: 5px; 
-            font-size: 18px; 
-            color: #4682b4; /* 강조색 */
-        }
-        input[type="text"] { 
-            width: 100%; 
-            padding: 12px; 
-            box-sizing: border-box; 
-            border: 1px solid #a9a9a9; /* 테두리를 조금 더 진하게 */
-            border-radius: 4px; 
-            font-size: 16px; 
-            margin-top: 5px;
-        }
-
-        /* 일반 버튼 스타일: 채도가 낮은 색상 사용 */
-        button { 
-            background-color: #708090; /* 차분한 슬레이트 그레이 */
-            color: white; 
-            padding: 14px 20px; /* 버튼 높이 증가 */
-            margin-top: 25px; 
-            border: none; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 20px; /* 버튼 글자 크기 증가 */
-            transition: background-color 0.3s; 
-            width: 100%; 
-            box-sizing: border-box;
-        }
-        button:hover { background-color: #5f6b7a; }
-        
-        /* 결과 박스 스타일 */
-        .result-box { margin-top: 30px; padding: 25px; border: 2px solid #b0c4de; background-color: #ffffff; border-radius: 10px; }
-        .prompt-output { background-color: #f0f8ff; /* 연한 하늘색 배경 */ padding: 15px; border-radius: 5px; white-space: pre-wrap; word-break: break-all; font-family: monospace; font-size: 16px; margin-top: 10px; border: 1px solid #add8e6; }
-        .copy-btn { background-color: #6a5acd; margin-left: 0; font-size: 20px; margin-top: 15px; } /* 복사 버튼 색상과 크기 조정 */
-        .copy-btn:hover { background-color: #5849b2; }
-
-        /* 외부 링크 스타일 */
-        .link-list { margin-top: 30px; padding: 15px; border-top: 2px dashed #d3d3d3; }
-        .link-list a { display: block; margin: 15px 0; color: #4682b4; text-decoration: underline; font-weight: bold; font-size: 18px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -95,14 +28,18 @@
             <input type="text" id="keyword4" placeholder="필수 입력 (예: AI 기술 활용)">
         </div>
 
-        <button onclick="generatePrompt()">⭐ 제안서 프롬프트 생성하기</button>
+        <button onclick="generatePrompt()">⭐ 제안서 생성하기</button>
     </div>
 
     <div id="result-section" class="result-box" style="display:none;">
-        <h3>✅ 생성된 국민신문고 정책 제안 프롬프트</h3>
-        <p>**주의:** 이 질문을 AI에 붙여넣으면, AI는 **설명 없이 오직 제안서 양식**만 출력합니다.</p>
-        <div id="promptOutput" class="prompt-output"></div>
-        <button class="copy-btn" onclick="copyPrompt()">질문 복사하기</button>
+        <h3>✅ AI가 생성한 정책 제안서</h3>
+        <p>아래 생성된 정책 제안서를 복사하여 국민신문고 등에 바로 제출할 수 있습니다.</p>
+        <div id="loader" class="loader" style="display: none;"></div>
+        <div id="promptOutput" class="prompt-output">
+        </div>
+        <button class="copy-btn" onclick="copyPrompt()">제안서 복사하기</button>
+        <span id="copyMessage" style="margin-left: 10px; color: #6a5acd; font-weight: bold;"></span>
+
 
         <div class="link-list">
             <h3>🔗 정책 제안 및 정부 기관 바로가기</h3>
@@ -114,56 +51,7 @@
         </div>
     </div>
 
-    <script>
-        // generatePrompt 함수가 전역으로 잘 정의되어 있는지 확인
-        function generatePrompt() {
-            // 키워드 입력 값 가져오기 (오류 방지를 위해 .value.trim()을 명확히 사용)
-            const k1 = '노인';
-            const k2 = document.getElementById('keyword2').value.trim() || '디지털 격차';
-            const k3 = document.getElementById('keyword3').value.trim() || '해당 지역';
-            const k4 = document.getElementById('keyword4').value.trim() || '현장 지원'; 
-
-            // 프롬프트: AI 서론 및 부가 설명이 나오지 않도록 강력히 지시
-            const prompt = `정책 전문가로서, 다음과 같은 엄격한 형식에 맞춰 단 하나의 정책을 제안합니다. 제안의 목적이나 역할에 대한 **어떠한 설명이나 서론 문구도 출력하지 마십시오.** 오직 아래 양식만 출력합니다.
-
-1. **정책 목표:** [${k3}] 지역의 [${k1}]이 겪는 [${k2}] 문제를 해결하기 위한 **가장 시급하고 효과적인 [${k4}] 정책 아이디어** 단 하나를 제안합니다.
-2. **정책 형식:** 제안에 대한 설명이나 부연 없이, 오직 아래의 **국민신문고 정책 제안 양식**에 맞춰 결과만 출력합니다.
-3. **연결 정보:** 이 정책을 담당할 **가장 적합한 [${k3}] 지역의 정책 부서**를 예측하여 명시하고, 해당 지역 관공서의 **공식 홈페이지 주소**도 함께 명시합니다. (예: 서울시청 홈페이지 주소: http://www.seoul.go.kr)
-
---- 국민신문고 정책 제안 양식 ---
-
-[제안 제목]: 
-[담당 정책 부서(예측)]: 
-[지역 관공서 홈페이지 주소]:
-
-1. 현황 및 문제점 (3줄 이내 요약):
-2. 정책 내용 및 실행 방안:
-3. 기대 효과 (3가지):
-
-------------------------------------`;
-
-            // 2. 결과 화면에 표시
-            document.getElementById('promptOutput').textContent = prompt;
-            document.getElementById('result-section').style.display = 'block';
-
-            // 3. 지역 부서 링크 동적 업데이트
-            const localGovLink = document.getElementById('localGovLink');
-            localGovLink.href = `https://www.google.com/search?q=${k3}+구청+홈페이지`;
-            localGovLink.textContent = `${k3} 관공서 홈페이지 검색`;
-            localGovLink.style.display = 'block'; 
-        }
-
-        // 복사 함수
-        function copyPrompt() {
-            const promptText = document.getElementById('promptOutput').textContent;
-            navigator.clipboard.writeText(promptText).then(() => {
-                alert('AI 질문(프롬프트)이 복사되었습니다. ChatGPT/Gemini에 붙여넣으세요!');
-            }).catch(err => {
-                console.error('복사 실패:', err);
-                alert('복사에 실패했습니다. 내용을 직접 드래그하여 복사해 주세요.');
-            });
-        }
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
