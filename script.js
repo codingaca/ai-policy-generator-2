@@ -3,7 +3,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function callGeminiAPI(prompt, retries = 5, delay = 1000) {
     // API 키. Canvas 환경에서는 자동으로 처리됩니다.
-    const apiKey = "AIzaSyDoGW1iVdtpF9vQnoehA-e-WRHoqZttRnE"; 
+    const apiKey = "AIzaSyA9pgjQJSO0GgSfHhAWBQn_dku9XzFzWRY"; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
     const payload = {
